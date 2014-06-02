@@ -35,6 +35,7 @@
 #include "FM.h"
 #include "FMVoices.h"
 #include "FormSwep.h"
+#include "FreeVerb"
 #include "Function.h"
 #include "Generator.h"
 #include "Granulate.h"
