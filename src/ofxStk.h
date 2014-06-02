@@ -1,6 +1,4 @@
 #pragma once
-
-#include "ofMain.h"
 #include "ADSR.h"
 #include "Asymp.h"
 #include "BandedWG.h"
@@ -35,7 +33,7 @@
 #include "FM.h"
 #include "FMVoices.h"
 #include "FormSwep.h"
-#include "FreeVerb"
+#include "FreeVerb.h"
 #include "Function.h"
 #include "Generator.h"
 #include "Granulate.h"
