@@ -25,6 +25,9 @@ public:
     
     void audioOut(float *output, int bufferSize, int nChannels);
     
+    // callback evertime user changes adsr envelope
+    void adsrChanged(float &val);
+    
     // checks if any keys are being held down;
     bool noNotesDown()const;
     

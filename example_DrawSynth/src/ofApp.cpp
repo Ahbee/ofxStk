@@ -26,16 +26,18 @@ void ofApp::setup(){
     gui.add(release.setup("release(ms)",500,10,2000));
     gui.add(gain.setup("gain",.5,0,1));
     
+    attack.addListener(this, &ofApp::adsrChanged);
+    decay.addListener(this, &ofApp::adsrChanged);
+    sustain.addListener(this, &ofApp::adsrChanged);
+    release.addListener(this, &ofApp::adsrChanged);
+    gain.addListener(this, &ofApp::adsrChanged);
+    
     ofSoundStreamSetup(2, 0);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    drawSynth.setAttack(attack/1000.0);
-    drawSynth.setDecay(decay/1000.0);
-    drawSynth.setSustain(sustain);
-    drawSynth.setRelease(release/1000.0);
-    drawSynth.setGain(gain);
+   
 }
 
 //--------------------------------------------------------------
@@ -216,6 +218,16 @@ bool ofApp::noNotesDown() const{
     }else{
         return false;
     }
+}
+
+//--------------------------------------------------------------
+
+void ofApp::adsrChanged(float &val){
+    drawSynth.setAttack(attack/1000.0);
+    drawSynth.setDecay(decay/1000.0);
+    drawSynth.setSustain(sustain);
+    drawSynth.setRelease(release/1000.0);
+    drawSynth.setGain(gain);
 }
 
 //--------------------------------------------------------------
