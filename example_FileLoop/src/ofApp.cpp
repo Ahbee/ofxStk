@@ -16,8 +16,6 @@ void ofApp::setup(){
     stk::Stk::setSampleRate(44100.0);
     ofSoundStreamSetup(2, 0);
     instructions.loadFont("verdana.ttf", 20);
-    
-    
 }
 
 //--------------------------------------------------------------

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>C8B6405D-9E91-419A-8BB8-0416FAE4C894</string>
+	<key>IDESourceControlProjectName</key>
+	<string>example_DrawSynth</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>661CC620-8FFE-4D57-A812-127FF7E700DC</key>
+		<string>https://github.com/Ahbee/ofxStk.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>example_DrawSynth/example_DrawSynth.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>661CC620-8FFE-4D57-A812-127FF7E700DC</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/Ahbee/ofxStk.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>661CC620-8FFE-4D57-A812-127FF7E700DC</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>661CC620-8FFE-4D57-A812-127FF7E700DC</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ofxStk</string>
+		</dict>
+	</array>
+</dict>
+</plist>
