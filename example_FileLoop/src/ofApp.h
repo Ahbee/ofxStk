@@ -25,8 +25,15 @@ class ofApp : public ofBaseApp{
     
     ofxPanel panel;
     ofxFloatSlider frequency;
+    ofxFloatSlider chorusDepth;
+    ofxFloatSlider chorusFrequency;
+    ofxFloatSlider reverbRoomSize;
+    ofxToggle reverbOn;
+    ofxToggle chorusOn;
     
     stk::FileLoop beat;
+    stk::FreeVerb reverb;
+    stk::Chorus chorus;
     
     ofTrueTypeFont instructions;
     bool shouldPlayAudio;
