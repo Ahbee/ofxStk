@@ -12,7 +12,7 @@ Step 2 - Copy the 'rawwaves' folder from bin/data of the example project, into b
 ##How to use
 ***
 
-Stk already works well with openFrameworks so there is no need to wrap it onto a separate api. Your best resource would be [the stk documentation](https://ccrma.stanford.edu/software/stk/classes.html)
+Stk already works well with openFrameworks so there is no need to wrap it onto a separate api. Your best resource would be [the stk documentation](https://ccrma.stanford.edu/software/stk/classes.html). You can also ask me questions on the [forum](http://forum.openframeworks.cc/t/ofxstk-synthesis-toolkit-addon/15989/3)
 
 ##Notes
 ***

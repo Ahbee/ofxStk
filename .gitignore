@@ -6,3 +6,7 @@ example_DrawSynth/bin/example_DrawSynthDebug.app
 *.xcuserstate
 
 *.xcuserstate
+
+*.xcuserstate
+
+*.xcbkptlist
