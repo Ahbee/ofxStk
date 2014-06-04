@@ -26,6 +26,12 @@ void ofApp::setup(){
     gui.add(release.setup("release(ms)",500,10,2000));
     gui.add(gain.setup("gain",.5,0,1));
     
+    drawSynth.setAttack(attack/1000.0);
+    drawSynth.setDecay(decay/1000.0);
+    drawSynth.setSustain(sustain);
+    drawSynth.setRelease(release/1000.0);
+    drawSynth.setGain(gain);
+    
     attack.addListener(this, &ofApp::adsrChanged);
     decay.addListener(this, &ofApp::adsrChanged);
     sustain.addListener(this, &ofApp::adsrChanged);
@@ -189,7 +195,7 @@ void ofApp::mouseReleased(int x, int y, int button){
         if (lastPoint.x < drawRegion.x + drawRegion.width) {
             wave.addVertex(drawRegion.x + drawRegion.width,lastPoint.y);
         }
-        StkFrames frames = getFramesFromWave();
+        StkFrames frames = createWaveTableFromDrawing();
         drawSynth.setWaveTable(frames);
     }
     drawingBegan = false;
@@ -243,8 +249,8 @@ void ofApp::cutWaveToPoint(ofPoint cutPoint){
 
 //--------------------------------------------------------------
 
-stk::StkFrames ofApp::getFramesFromWave(){
-    int numberOfFrames = stk::Stk::sampleRate();
+stk::StkFrames ofApp::createWaveTableFromDrawing(){
+    int numberOfFrames = 5000;
     stk::StkFrames frames(numberOfFrames,1);
     for (int i = 0; i < numberOfFrames; i++) {
         float xValue = ofMap(i, 0, numberOfFrames-1, drawRegion.x, drawRegion.x+drawRegion.width);

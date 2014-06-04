@@ -34,8 +34,8 @@ public:
     // prevents the user from drawing illegal waves
     void cutWaveToPoint(ofPoint cutPoint);
     
-    // creates 44100 frames of audio from the wave drawing
-    stk::StkFrames getFramesFromWave();
+    // creates a 5000 size waveTable from the wave drawing
+    stk::StkFrames createWaveTableFromDrawing();
     
     // takes the yValue inside the drawing region and converts it to
     // range -1 to 1, where -1 is rext bottom and 1 is rect top

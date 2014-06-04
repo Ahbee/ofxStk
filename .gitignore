@@ -3,3 +3,6 @@ example_FileLoop/bin/example_FileLoopDebug.app
 example_simple/bin/example_simpleDebug.app
 
 example_DrawSynth/bin/example_DrawSynthDebug.app
+*.xcuserstate
+
+*.xcuserstate
