@@ -22,7 +22,7 @@ StkFloat DrawSynth::tick(unsigned int channel){
     float indexIncremet = frqTL * frequency;
     lastFrame_[0] = waveTable.tick(index);
     index+=indexIncremet;
-    if (index >= tableSize - .00001 ) {
+    if (index >= tableSize - 1) {
         index = 0;
     }
     lastFrame_[0]*= adsr.tick();
