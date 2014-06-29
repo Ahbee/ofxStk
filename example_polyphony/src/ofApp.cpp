@@ -31,7 +31,7 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    instructions.drawString("Press keys a,s,d,f,g,h,j,k,l to play synth", 20,150);
+    instructions.drawString("Press keys a,s,d,f,g,h,j,k,l to play polyphonic synth", 20,150);
 
 }
 
