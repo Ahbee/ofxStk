@@ -1,130 +1,137 @@
 #include "ofApp.h"
 
-const float NoteC = 65.41;
-const float NoteD = 73.42;
-const float NoteE = 82.41;
-const float NoteF = 87.31;
-const float NoteG = 98.0;
-const float NoteA = 110.0;
-const float NoteB = 123.47;
-const float NoteC2 = 130.81;
-const float NoteD2 = 146.83;
-
-const int op4FeedbackCC = 2;
-const int op3GainCC = 4;
-const int LFOSpeedCC = 11;
-const int LFODepthCC = 1;
-
-
 //--------------------------------------------------------------
 void ofApp::setup(){
     stk::Stk::setRawwavePath(ofToDataPath("rawwaves",true));
     
-    gui.setup("Synth Settings");
-    gui.add(op4Feedback.setup("op4Feedback",60,0,127));
-    gui.add(op3Gain.setup("op3Gain",60,0,127));
-    gui.add(lfoSpeed.setup("LfoSpeed",0,0,127));
-    gui.add(lfoDepth.setup("LfoDepth",0,0,127));
-    
     instructions.loadFont("verdana.ttf", 20);
+
+    for (int i = 0; i < 100 ; i++) {
+        stk::Moog *moog = new stk::Moog();
+        voicer.addInstrument(moog);
+    }
+    c.noteNumber = 36;
+    e.noteNumber = 38;
+    d.noteNumber = 40;
+    f.noteNumber = 41;
+    g.noteNumber = 43;
+    a.noteNumber = 45;
+    b.noteNumber = 47;
+    c2.noteNumber = 48;
+    d2.noteNumber = 50;
+    e2.noteNumber = 52;
     
-    stk::Stk::setSampleRate(44100.0);
     ofSoundStreamSetup(2, 0);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    synth.controlChange(op4FeedbackCC, op4Feedback);
-    synth.controlChange(op3GainCC, op3Gain);
-    synth.controlChange(LFOSpeedCC, lfoSpeed);
-    synth.controlChange(LFODepthCC, lfoDepth);
+
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    gui.draw();
     instructions.drawString("Press keys a,s,d,f,g,h,j,k,l to play synth", 20,150);
+
 }
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
-    float amplitude = .5;
-    switch (key) {
-        case 'a':
-            synth.noteOn(NoteC, amplitude);
+    // openframeworks calls keyPressed() even when key is heldDown
+    // so we have check if key is already held down before calling noteOn
+    
+    float gain = 50;
+    if (key == 'a') {
+        if (!aDown) {
+            c.voiceTag = voicer.noteOn(c.noteNumber,gain);
             aDown = true;
-            break;
-        case 's':
-            synth.noteOn(NoteD, amplitude);
+        }
+    }else if (key == 's'){
+        if (!sDown) {
+            d.voiceTag = voicer.noteOn(d.noteNumber,gain);
             sDown = true;
-            break;
-        case 'd':
-            synth.noteOn(NoteE, amplitude);
+        }
+    }else if (key == 'd'){
+        if (!dDown) {
+            e.voiceTag = voicer.noteOn(e.noteNumber,gain);
             dDown = true;
-            break;
-        case 'f':
-            synth.noteOn(NoteF, amplitude);
+        }
+    }else if (key == 'f'){
+        if (!fDown) {
+            f.voiceTag = voicer.noteOn(f.noteNumber,gain);
             fDown = true;
-            break;
-        case 'g':
-            synth.noteOn(NoteG, amplitude);
+        }
+    }else if (key == 'g'){
+        if (!gDown) {
+            g.voiceTag = voicer.noteOn(g.noteNumber,gain);
             gDown = true;
-            break;
-        case 'h':
-            synth.noteOn(NoteA, amplitude);
+        }
+    }else if(key == 'h'){
+        if (!hDown) {
+            a.voiceTag = voicer.noteOn(a.noteNumber,gain);
             hDown = true;
-            break;
-        case 'j':
-            synth.noteOn(NoteB, amplitude);
+        }
+    }else if (key == 'j'){
+        if (!jDown) {
+            b.voiceTag = voicer.noteOn(b.noteNumber,gain);
             jDown = true;
-            break;
-        case 'k':
-            synth.noteOn(NoteC2, amplitude);
+        }
+        
+    }else if (key =='k'){
+        if (!kDown) {
+            c2.voiceTag = voicer.noteOn(c2.noteNumber,gain);
             kDown = true;
-            break;
-        case 'l':
-            synth.noteOn(NoteD2, amplitude);
+        }
+    }else if (key == 'l'){
+        if (!lDown) {
+            d2.voiceTag = voicer.noteOn(d2.noteNumber,gain);
             lDown = true;
-        default:
-            break;
+        }
     }
 
 }
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
+    float gain = 50;
     switch (key) {
         case 'a':
+            voicer.noteOff(c.voiceTag, gain);
             aDown = false;
             break;
         case 's':
+            voicer.noteOff(d.voiceTag, gain);
             sDown = false;
             break;
         case 'd':
+            voicer.noteOff(e.voiceTag, gain);
             dDown = false;
             break;
         case 'f':
+            voicer.noteOff(f.voiceTag, gain);
             fDown = false;
             break;
         case 'g':
+            voicer.noteOff(g.voiceTag, gain);
             gDown = false;
             break;
         case 'h':
+            voicer.noteOff(a.voiceTag, gain);
             hDown = false;
             break;
         case 'j':
+            voicer.noteOff(b.voiceTag, gain);
             jDown = false;
             break;
         case 'k':
+            voicer.noteOff(c2.voiceTag, gain);
             kDown = false;
             break;
         case 'l':
+            voicer.noteOff(d2.voiceTag, gain);
             lDown = false;
         default:
             break;
-    }
-    if (noNotesDown()) {
-        synth.noteOff(.5);
     }
 
 }
@@ -164,22 +171,10 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 
 }
 
-//--------------------------------------------------------------
-
-void ofApp::audioOut(float *output, int bufferSize, int nChannnels){
-    stk::StkFrames synthFrames(bufferSize,1);
-    synth.tick(synthFrames);
-    for (int i = 0; i < bufferSize; i++) {
-        output[2*i] = synthFrames(i,0);
-        output[2*i+1] =  synthFrames(i,0);
+void ofApp::audioOut(float *output, int bufferSize, int nChannels){
+    for (int i = 0; i < bufferSize ; i++) {
+        float value = voicer.tick();
+        output[2*i] = value;
+        output[2*i+1] = value;
     }
 }
-
-bool ofApp::noNotesDown(){
-    if (!(aDown || sDown || dDown || fDown || gDown || hDown || jDown || kDown || lDown)) {
-        return true;
-    }else{
-        return false;
-    }
-}
-

@@ -2,7 +2,11 @@
 
 #include "ofMain.h"
 #include "ofxStk.h"
-#include "ofxGui.h"
+
+struct MusicalNote {
+    stk::StkFloat noteNumber;
+    long voiceTag;
+};
 
 class ofApp : public ofBaseApp{
 
@@ -21,18 +25,11 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
-    void audioOut(float *output,int bufferSize,int nChannnels);
-    bool noNotesDown();
+    void audioOut(float *output,int bufferSize,int nChannels);
+    stk::FileLoop sine;
+    stk::Voicer voicer;
     
-    ofxPanel gui;
-    ofxFloatSlider op4Feedback;
-    ofxFloatSlider op3Gain;
-    ofxFloatSlider lfoSpeed;
-    ofxFloatSlider lfoDepth;
-    
-    stk::BeeThree synth;
-    
-    ofTrueTypeFont instructions;
+    MusicalNote c,d,e,f,g,a,b,c2,d2,e2;
     
     bool aDown;
     bool sDown;
@@ -43,5 +40,7 @@ class ofApp : public ofBaseApp{
     bool jDown;
     bool kDown;
     bool lDown;
+    
+    ofTrueTypeFont instructions;
 		
 };

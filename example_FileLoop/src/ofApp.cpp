@@ -12,7 +12,7 @@ void ofApp::setup(){
     chorus.setEffectMix(1.0);
     reverb.setEffectMix(.5);
     
-    beat.openFile(ofToDataPath("beat.wav"));
+    beat.openFile(ofToDataPath("beat.wav",true));
     stk::Stk::setSampleRate(44100.0);
     ofSoundStreamSetup(2, 0);
     instructions.loadFont("verdana.ttf", 20);
