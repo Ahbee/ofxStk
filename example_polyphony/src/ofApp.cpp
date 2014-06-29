@@ -11,8 +11,8 @@ void ofApp::setup(){
         voicer.addInstrument(moog);
     }
     c.noteNumber = 36;
-    e.noteNumber = 38;
-    d.noteNumber = 40;
+    d.noteNumber = 38;
+    e.noteNumber = 40;
     f.noteNumber = 41;
     g.noteNumber = 43;
     a.noteNumber = 45;
