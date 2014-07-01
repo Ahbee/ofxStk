@@ -22,18 +22,24 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
     
     void audioOut(float *output,int bufferSize,int nChannels);
+    void chorusParametersChanged(float &value);
+    void reverbParametersChanged(float &value);
+    void frequencyChanged(float &value);
+    void filterCutoffChanged(float &value);
     
     ofxPanel panel;
     ofxFloatSlider frequency;
     ofxFloatSlider chorusDepth;
     ofxFloatSlider chorusFrequency;
     ofxFloatSlider reverbRoomSize;
+    ofxFloatSlider filterCutoff;
     ofxToggle reverbOn;
     ofxToggle chorusOn;
     
     stk::FileLoop beat;
     stk::FreeVerb reverb;
     stk::Chorus chorus;
+    stk::OneZero filter;
     
     ofTrueTypeFont instructions;
     bool shouldPlayAudio;

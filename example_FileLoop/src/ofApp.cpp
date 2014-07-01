@@ -4,6 +4,7 @@
 void ofApp::setup(){
     panel.setup();
     panel.add(frequency.setup("BeatFrequency",.25,-1,1));
+    panel.add(filterCutoff.setup("filter Cutoff",0.0,0.0,.99));
     panel.add(chorusDepth.setup("chorusDepth",.01,0,.1));
     panel.add(chorusFrequency.setup("chorusFrequency",500,1,500));
     panel.add(reverbRoomSize.setup("reverbRoomSize",.3,0,1));
@@ -11,6 +12,20 @@ void ofApp::setup(){
     panel.add(reverbOn.setup("reverbOn",false));
     chorus.setEffectMix(1.0);
     reverb.setEffectMix(.5);
+    
+    frequency.addListener(this, &ofApp::frequencyChanged);
+    chorusDepth.addListener(this, &ofApp::chorusParametersChanged);
+    chorusFrequency.addListener(this, &ofApp::chorusParametersChanged);
+    reverbRoomSize.addListener(this, &ofApp::reverbParametersChanged);
+    filterCutoff.addListener(this, &ofApp::filterCutoffChanged);
+    
+    
+    chorus.setModDepth(chorusDepth);
+    chorus.setModFrequency(chorusFrequency);
+    reverb.setRoomSize(reverbRoomSize);
+    beat.setFrequency(frequency);
+    filter.setZero(filterCutoff);
+    
     
     beat.openFile(ofToDataPath("beat.wav",true));
     stk::Stk::setSampleRate(44100.0);
@@ -20,10 +35,6 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    beat.setFrequency(frequency);
-    chorus.setModDepth(chorusDepth);
-    chorus.setModFrequency(chorusFrequency);
-    reverb.setRoomSize(reverbRoomSize);
     
 }
 
@@ -82,20 +93,59 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 
 void ofApp::audioOut(float *output, int bufferSize, int nChannels){
     if (shouldPlayAudio) {
-        stk::StkFrames frames(bufferSize,nChannels);
+        stk::StkFrames frames(bufferSize,2);
         beat.tick(frames);
+        
+        // the beat is a 2 channel file , however most effects only work on on channel
+        // so we will just use the left channel. If you want to apply effects on the second channel you need to
+        //create two sets of effects one for the left channel and one for the right channel
+        stk::StkFrames leftChannel(bufferSize,1);
+        for (int i = 0; i < bufferSize; i++) {
+            leftChannel[i] = frames(i,0);
+        }
+        // applys a filter and writes back into leftChannel
+        filter.tick(leftChannel);
+        
         if (chorusOn) {
-            chorus.tick(frames);
+            // chrous takes a mono frame and outputs a stereo frame
+            // we will only use the left channel
+            stk::StkFrames chorusOut(bufferSize,2);
+            chorus.tick(leftChannel, chorusOut);
+            for (int i = 0; i < bufferSize; i++) {
+                leftChannel[i] = chorusOut(i,0);
+            }
         }
         if (reverbOn) {
-            reverb.tick(frames);
+            // reverb also takes a mono frame and outputs a stereo frame
+            // we will only use the left channel
+            stk::StkFrames reverbOut(bufferSize,2);
+            reverb.tick(leftChannel,reverbOut,0,0);
+            for (int i = 0; i < bufferSize; i++) {
+                leftChannel[i] = reverbOut(i,0);
+            }
         }
         for (int i = 0; i < bufferSize ; i++) {
-            output[2*i] = frames(i,0);
-            output[2*i+1] = frames(i,1);
+            output[2*i] = leftChannel[i];
+            output[2*i+1] = leftChannel[i];
         }
     }
 }
 
+void ofApp::chorusParametersChanged(float &value){
+    chorus.setModDepth(chorusDepth);
+    chorus.setModFrequency(chorusFrequency);
+}
+
+void ofApp::reverbParametersChanged(float &value){
+    reverb.setRoomSize(value);
+}
+
+void ofApp::frequencyChanged(float &value){
+    beat.setFrequency(value);
+}
+
+void ofApp::filterCutoffChanged(float &value){
+    filter.setZero(value);
+}
 
 
