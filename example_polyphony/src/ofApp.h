@@ -27,7 +27,7 @@ class ofApp : public ofBaseApp{
     
     void audioOut(float *output,int bufferSize,int nChannels);
     
-    stk::Voicer voicer;
+    stk::Voicer *voicer;
     
     MusicalNote c,d,e,f,g,a,b,c2,d2,e2;
     
