@@ -42,7 +42,7 @@ public:
     stk::StkFloat tick(unsigned int channel = 0){
         // we are using just the right channel of the sample
         // we do this by passing 1 to 'tick'
-        lastFrame_[0] = sample->tick(0);
+        lastFrame_[0] = sample->tick(1);
         lastFrame_[0] = pithShifter->tick(lastFrame_[0]);
         
         // there seems to be a bug in pitShift::tick where samples
