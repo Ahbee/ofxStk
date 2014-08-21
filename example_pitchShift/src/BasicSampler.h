@@ -41,7 +41,7 @@ public:
     // inside tick you are responsible for setting lastFrame_
     stk::StkFloat tick(unsigned int channel = 0){
         // we are using just the right channel of the sample
-        // we do this by passing 1 to 'tick'
+        // we do this by passing 1 to 'sample->tick'
         lastFrame_[0] = sample->tick(1);
         lastFrame_[0] = pithShifter->tick(lastFrame_[0]);
         
