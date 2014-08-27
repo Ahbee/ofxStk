@@ -4,7 +4,7 @@
 void ofApp::setup(){
     stk::Stk::setRawwavePath(ofToDataPath("rawwaves",true));
     
-    voicer = new stk::Voicer(3.0);
+    voicer = new stk::Voicer();
     instructions.loadFont("verdana.ttf", 20);
 
     for (int i = 0; i < 100 ; i++) {
