@@ -281,9 +281,9 @@ StkFrames :: StkFrames( const StkFrames& f )
 
 StkFrames& StkFrames :: operator= ( const StkFrames& f )
 {
-  data_ = 0;
-  size_ = 0;
-  bufferSize_ = 0;
+  //  data_ = 0;
+  //  size_ = 0;
+  //  bufferSize_ = 0;
   resize( f.frames(), f.channels() );
   dataRate_ = Stk::sampleRate();
   for ( unsigned int i=0; i<size_; i++ ) data_[i] = f[i];
