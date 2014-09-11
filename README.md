@@ -1,5 +1,5 @@
 #ofxStk
-ofxStk lets you use [The Synthesis Tool Kit](https://ccrma.stanford.edu/software/stk/index.html) inside openFrameworks. The offical repo for stk is [here](https://github.com/thestk/stk). For features and issues you are better off posting there. I sync ofxStk with the offical Stk repo about once a month. 
+ofxStk lets you use [The Synthesis Tool Kit](https://ccrma.stanford.edu/software/stk/index.html) inside openFrameworks. The offical repo for stk is (https://github.com/thestk/stk). For features and issues you are better off posting there. I sync ofxStk with the offical Stk repo about once a month. 
 
 
 ##Installation 
