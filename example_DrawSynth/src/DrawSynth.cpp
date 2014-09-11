@@ -1,5 +1,9 @@
 #include "DrawSynth.h"
 
+DrawSynth::DrawSynth(){
+    index = 0.0;
+}
+
 void DrawSynth::noteOn(StkFloat frequency, StkFloat amplitude){
     adsr.keyOn();
     setFrequency(frequency);
@@ -16,7 +20,6 @@ void DrawSynth::setFrequency(StkFloat newFreq){
 
 // inside tick you are responsible for setting lastFrame_
 StkFloat DrawSynth::tick(unsigned int channel){
-    static float index = 0;
     int tableSize = waveTable.getTableSize();
     float frqTL = (float)tableSize/Stk::sampleRate();
     float indexIncremet = frqTL * frequency;

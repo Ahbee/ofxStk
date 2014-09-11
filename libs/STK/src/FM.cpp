@@ -19,12 +19,12 @@
     type who should worry about this (making
     money) worry away.
 
-    by Perry R. Cook and Gary P. Scavone, 1995-2012.
+    by Perry R. Cook and Gary P. Scavone, 1995--2014.
 */
 /***************************************************/
 
 #include "FM.h"
-#include "SKINI.msg"
+#include "SKINImsg.h"
 
 namespace stk {
 

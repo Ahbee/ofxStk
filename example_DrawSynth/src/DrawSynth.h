@@ -29,6 +29,8 @@ private:
 class DrawSynth:public stk::Instrmnt {
 public:
     
+    DrawSynth();
+    
     virtual void noteOn(StkFloat frequency, StkFloat amplitude );
     virtual void noteOff(StkFloat amplitude);
     virtual void setFrequency( StkFloat frequency);
@@ -47,4 +49,5 @@ private:
     StkFloat frequency;
     ADSR adsr;
     float gain;
+    float index;
 };

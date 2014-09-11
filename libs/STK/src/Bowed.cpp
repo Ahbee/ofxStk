@@ -19,13 +19,13 @@
        - Frequency = 101
        - Volume = 128
 
-    by Perry R. Cook and Gary P. Scavone, 1995-2012.
+    by Perry R. Cook and Gary P. Scavone, 1995--2014.
     Contributions by Esteban Maestre, 2011.
 */
 /***************************************************/
 
 #include "Bowed.h"
-#include "SKINI.msg"
+#include "SKINImsg.h"
 
 namespace stk {
 

@@ -30,7 +30,7 @@ namespace stk {
     type who should worry about this (making
     money) worry away.
 
-    by Perry R. Cook and Gary P. Scavone, 1995-2012.
+    by Perry R. Cook and Gary P. Scavone, 1995--2014.
 */
 /***************************************************/
 
@@ -45,9 +45,6 @@ class FM : public Instrmnt
 
   //! Class destructor.
   virtual ~FM( void );
-
-  //! Reset and clear all wave and envelope states.
-  void clear( void );
 
   //! Load the rawwave filenames in waves.
   void loadWaves( const char **filenames );

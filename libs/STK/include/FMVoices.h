@@ -33,7 +33,7 @@ namespace stk {
     type who should worry about this (making
     money) worry away.
 
-    by Perry R. Cook and Gary P. Scavone, 1995-2012.
+    by Perry R. Cook and Gary P. Scavone, 1995--2014.
 */
 /***************************************************/
 
@@ -80,7 +80,7 @@ class FMVoices : public FM
 
 inline StkFloat FMVoices :: tick( unsigned int )
 {
-  register StkFloat temp, temp2;
+  StkFloat temp, temp2;
 
   temp = gains_[3] * adsr_[3]->tick() * waves_[3]->tick();
   temp2 = vibrato_.tick() * modDepth_ * 0.1;

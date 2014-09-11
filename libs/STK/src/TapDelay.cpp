@@ -10,7 +10,7 @@
     A non-interpolating delay line is typically used in fixed
     delay-length applications, such as for reverberation.
 
-    by Perry R. Cook and Gary P. Scavone, 1995-2012.
+    by Perry R. Cook and Gary P. Scavone, 1995--2014.
 */
 /***************************************************/
 
@@ -67,17 +67,12 @@ void TapDelay :: setTapDelays( std::vector<unsigned long> taps )
       oStream_ << "TapDelay::setTapDelay: argument (" << taps[i] << ") greater than maximum!\n";
       handleError( StkError::WARNING ); return;
     }
-
-    if ( taps[i] < 0 ) {
-      oStream_ << "TapDelay::setDelay: argument (" << taps[i] << ") less than zero!\n";
-      handleError( StkError::WARNING ); return;
-    }
   }
 
   if ( taps.size() != outPoint_.size() ) {
     outPoint_.resize( taps.size() );
     delays_.resize( taps.size() );
-    lastFrame_.resize( 1, taps.size(), 0.0 );
+    lastFrame_.resize( 1, (unsigned int)taps.size(), 0.0 );
   }
 
   for ( unsigned int i=0; i<taps.size(); i++ ) {

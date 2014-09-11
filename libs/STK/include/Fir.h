@@ -23,7 +23,7 @@ namespace stk {
     This structure results in one extra multiply per computed sample,
     but allows easy control of the overall filter gain.
 
-    by Perry R. Cook and Gary P. Scavone, 1995-2012.
+    by Perry R. Cook and Gary P. Scavone, 1995--2014.
 */
 /***************************************************/
 
@@ -88,7 +88,7 @@ inline StkFloat Fir :: tick( StkFloat input )
   lastFrame_[0] = 0.0;
   inputs_[0] = gain_ * input;
 
-  for ( unsigned int i=b_.size()-1; i>0; i-- ) {
+  for ( unsigned int i=(unsigned int)(b_.size())-1; i>0; i-- ) {
     lastFrame_[0] += b_[i] * inputs_[i];
     inputs_[i] = inputs_[i-1];
   }
@@ -112,7 +112,7 @@ inline StkFrames& Fir :: tick( StkFrames& frames, unsigned int channel )
     inputs_[0] = gain_ * *samples;
     *samples = 0.0;
 
-    for ( i=b_.size()-1; i>0; i-- ) {
+    for ( i=(unsigned int)b_.size()-1; i>0; i-- ) {
       *samples += b_[i] * inputs_[i];
       inputs_[i] = inputs_[i-1];
     }
@@ -139,7 +139,7 @@ inline StkFrames& Fir :: tick( StkFrames& iFrames, StkFrames& oFrames, unsigned 
     inputs_[0] = gain_ * *iSamples;
     *oSamples = 0.0;
 
-    for ( i=b_.size()-1; i>0; i-- ) {
+    for ( i=(unsigned int)b_.size()-1; i>0; i-- ) {
       *oSamples += b_[i] * inputs_[i];
       inputs_[i] = inputs_[i-1];
     }

@@ -15,7 +15,7 @@ namespace stk {
     This instrument provides an ADSR envelope, a one-pole filter, and
     structures for an arbitrary number of attack and looped files.
 
-    by Perry R. Cook and Gary P. Scavone, 1995-2012.
+    by Perry R. Cook and Gary P. Scavone, 1995--2014.
 */
 /***************************************************/
 
@@ -27,9 +27,6 @@ class Sampler : public Instrmnt
 
   //! Class destructor.
   virtual ~Sampler( void );
-
-  //! Reset and clear all internal state.
-  void clear( void );
 
   //! Set instrument parameters for a particular frequency.
   virtual void setFrequency( StkFloat frequency ) = 0;

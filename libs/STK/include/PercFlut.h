@@ -29,7 +29,7 @@ namespace stk {
     type who should worry about this (making
     money) worry away.
 
-    by Perry R. Cook and Gary P. Scavone, 1995-2012.
+    by Perry R. Cook and Gary P. Scavone, 1995--2014.
 */
 /***************************************************/
 
@@ -70,7 +70,7 @@ class PercFlut : public FM
 
 inline StkFloat PercFlut :: tick( unsigned int )
 {
-  register StkFloat temp;
+  StkFloat temp;
 
   temp = vibrato_.tick() * modDepth_ * 0.2;    
   waves_[0]->setFrequency(baseFrequency_ * (1.0 + temp) * ratios_[0]);

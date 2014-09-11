@@ -12,7 +12,7 @@ namespace stk {
   This class provides a common interface for
   all STK instruments.
 
-  by Perry R. Cook and Gary P. Scavone, 1995-2012.
+  by Perry R. Cook and Gary P. Scavone, 1995--2014.
 */
 /***************************************************/
 
@@ -21,6 +21,12 @@ class Instrmnt : public Stk
  public:
   //! Class constructor.
   Instrmnt( void ) { lastFrame_.resize( 1, 1, 0.0 ); };
+
+  //! Reset and clear all internal state (for subclasses).
+  /*!
+    Not all subclasses implement a clear() function.
+  */
+  virtual void clear( void ) {};
 
   //! Start a note with the given frequency and amplitude.
   virtual void noteOn( StkFloat frequency, StkFloat amplitude ) = 0;

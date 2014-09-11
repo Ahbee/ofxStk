@@ -28,14 +28,14 @@
     This class is primarily for use in STK example programs but it is
     generic enough to work in many other contexts.
 
-    by Perry R. Cook and Gary P. Scavone, 1995-2012.
+    by Perry R. Cook and Gary P. Scavone, 1995--2014.
 */
 /***************************************************/
 
 #include "Messager.h"
 #include <iostream>
 #include <algorithm>
-#include "SKINI.msg"
+#include "SKINImsg.h"
 
 namespace stk {
 
@@ -46,10 +46,11 @@ extern "C" THREAD_RETURN THREAD_TYPE socketHandler(void * ptr);
 
 #endif // __STK_REALTIME__
 
-static const int STK_FILE   = 0x1;
-static const int STK_MIDI   = 0x2;
-static const int STK_STDIN   = 0x4;
-static const int STK_SOCKET = 0x8;
+typedef int MessagerSourceType;
+MessagerSourceType STK_FILE   = 0x1;
+MessagerSourceType STK_MIDI   = 0x2;
+MessagerSourceType STK_STDIN   = 0x4;
+MessagerSourceType STK_SOCKET = 0x8;
 
 Messager :: Messager()
 {
@@ -254,7 +255,7 @@ bool Messager :: startMidiInput( int port )
     if ( port == -1 ) data_.midi->openVirtualPort();
     else data_.midi->openPort( (unsigned int)port );
   }
-  catch ( RtError &error ) {
+  catch ( RtMidiError &error ) {
     oStream_ << "Messager::startMidiInput: error creating RtMidiIn instance (" << error.getMessage() << ").";
     handleError( StkError::WARNING );
     return false;

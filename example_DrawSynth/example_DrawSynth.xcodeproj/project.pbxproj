@@ -38,7 +38,6 @@
 		5CBB2AB3A60F65431D7B555D /* ofxButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C88333E71C9457E441C33474 /* ofxButton.cpp */; };
 		5CFC8C294C4EDB17A569A7E2 /* FMVoices.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E79FD724FED2608DAC985DD8 /* FMVoices.cpp */; };
 		60E81E9A1B6A54248E53A444 /* Modal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4FD0EE00FA862D53D0E23109 /* Modal.cpp */; };
-		6B93C25D9BE71D3458B32A79 /* Skini.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 731DAEE6ECE6459D5E4EAB29 /* Skini.cpp */; };
 		6CE1F3C8BCEF5B150D9CF289 /* Rhodey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A5B1B023BF8E07CFFAE6481C /* Rhodey.cpp */; };
 		6EB498E5295E2FC58868771B /* BlitSaw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 09181785F5BB902663FCC71B /* BlitSaw.cpp */; };
 		70B82E67E5FBD6B1588B68A4 /* Mandolin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3185D3F238C07BAF47D4EB96 /* Mandolin.cpp */; };
@@ -223,7 +222,6 @@
 		72798D9547C89AB3114215AF /* FreeVerb.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = FreeVerb.h; path = ../../../addons/ofxStk/libs/STK/include/FreeVerb.h; sourceTree = SOURCE_ROOT; };
 		7296635A7837A074A04B4F07 /* Bowed.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = Bowed.h; path = ../../../addons/ofxStk/libs/STK/include/Bowed.h; sourceTree = SOURCE_ROOT; };
 		72E91875829CE53A8BBAE2B1 /* Blit.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = Blit.cpp; path = ../../../addons/ofxStk/libs/STK/src/Blit.cpp; sourceTree = SOURCE_ROOT; };
-		731DAEE6ECE6459D5E4EAB29 /* Skini.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = Skini.cpp; path = ../../../addons/ofxStk/libs/STK/src/Skini.cpp; sourceTree = SOURCE_ROOT; };
 		7363B700E2A933EACB3EE17A /* DelayL.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = DelayL.h; path = ../../../addons/ofxStk/libs/STK/include/DelayL.h; sourceTree = SOURCE_ROOT; };
 		7432DF857D626AC939D6845B /* LentPitShift.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = LentPitShift.cpp; path = ../../../addons/ofxStk/libs/STK/src/LentPitShift.cpp; sourceTree = SOURCE_ROOT; };
 		74744D91299660DC19C1604D /* Flute.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = Flute.h; path = ../../../addons/ofxStk/libs/STK/include/Flute.h; sourceTree = SOURCE_ROOT; };
@@ -450,7 +448,6 @@
 				6675851E963A90EDA65EAF8E /* SineWave.cpp */,
 				C51AEE670C1CB6F554A09873 /* SingWave.cpp */,
 				C7580B5DC9657A31F1707A69 /* Sitar.cpp */,
-				731DAEE6ECE6459D5E4EAB29 /* Skini.cpp */,
 				7A8D4D036B34CF6C3DB03575 /* Sphere.cpp */,
 				8405F47E613657EEB8811AD0 /* StifKarp.cpp */,
 				B404CFB0C08C4721B18919AD /* Stk.cpp */,
@@ -880,7 +877,6 @@
 				F9BDD51E313EF160F79D93DA /* SineWave.cpp in Sources */,
 				E2676F87BD6B8900914E5FDE /* SingWave.cpp in Sources */,
 				8B4AED05BB94F9E609C1402C /* Sitar.cpp in Sources */,
-				6B93C25D9BE71D3458B32A79 /* Skini.cpp in Sources */,
 				22E5A94F5A8674BEDFC910AE /* Sphere.cpp in Sources */,
 				5C308AF4A777EAA8C47032C9 /* StifKarp.cpp in Sources */,
 				0A10D66B3E55ACB0927E684C /* Stk.cpp in Sources */,

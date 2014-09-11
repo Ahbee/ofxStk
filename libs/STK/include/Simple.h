@@ -25,7 +25,7 @@ namespace stk {
        - Envelope Rate = 11
        - Gain = 128
 
-    by Perry R. Cook and Gary P. Scavone, 1995-2012.
+    by Perry R. Cook and Gary P. Scavone, 1995--2014.
 */
 /***************************************************/
 
@@ -40,9 +40,6 @@ class Simple : public Instrmnt
 
   //! Class destructor.
   ~Simple( void );
-
-  //! Clear internal states.
-  void clear( void );
 
   //! Set instrument parameters for a particular frequency.
   void setFrequency( StkFloat frequency );

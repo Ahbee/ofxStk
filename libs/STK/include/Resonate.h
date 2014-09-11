@@ -23,7 +23,7 @@ namespace stk {
        - Zero Radii = 1
        - Envelope Gain = 128
 
-    by Perry R. Cook and Gary P. Scavone, 1995-2012.
+    by Perry R. Cook and Gary P. Scavone, 1995--2014.
 */
 /***************************************************/
 
@@ -35,9 +35,6 @@ class Resonate : public Instrmnt
 
   //! Class destructor.
   ~Resonate( void );
-
-  //! Reset and clear all internal state.
-  void clear( void );
 
   //! Set the filter for a resonance at the given frequency (Hz) and radius.
   void setResonance( StkFloat frequency, StkFloat radius );

@@ -35,7 +35,7 @@ namespace stk {
     type who should worry about this (making
     money) worry away.
 
-    by Perry R. Cook and Gary P. Scavone, 1995-2012.
+    by Perry R. Cook and Gary P. Scavone, 1995--2014.
 */
 /***************************************************/
 
@@ -73,7 +73,7 @@ class BeeThree : public FM
 
 inline StkFloat BeeThree :: tick( unsigned int )
 {
-  register StkFloat temp;
+  StkFloat temp;
 
   if ( modDepth_ > 0.0 )	{
     temp = 1.0 + ( modDepth_ * vibrato_.tick() * 0.1 );

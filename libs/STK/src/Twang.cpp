@@ -17,7 +17,7 @@
     use possibly subject to patents held by Stanford
     University, Yamaha, and others.
 
-    by Perry R. Cook and Gary P. Scavone, 1995-2012.
+    by Perry R. Cook and Gary P. Scavone, 1995--2014.
 */
 /***************************************************/
 
@@ -66,6 +66,7 @@ void Twang :: setFrequency( StkFloat frequency )
   }
 #endif
 
+  frequency_ = frequency;
   // Delay = length - filter delay.
   StkFloat delay = ( Stk::sampleRate() / frequency ) - loopFilter_.phaseDelay( frequency );
   delayLine_.setDelay( delay );

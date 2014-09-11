@@ -24,12 +24,12 @@
          - Two Fixed = 7
          - Clump = 8
 
-    by Perry R. Cook and Gary P. Scavone, 1995-2012.
+    by Perry R. Cook and Gary P. Scavone, 1995--2014.
 */
 /***************************************************/
 
 #include "ModalBar.h"
-#include "SKINI.msg"
+#include "SKINImsg.h"
 #include <cmath>
 
 namespace stk {
