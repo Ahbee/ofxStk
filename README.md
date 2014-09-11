@@ -1,11 +1,11 @@
 #ofxStk
-ofxStk lets you use [The Synthesis Tool Kit](https://ccrma.stanford.edu/software/stk/index.html) inside openFrameworks. 
+ofxStk lets you use [The Synthesis Tool Kit](https://ccrma.stanford.edu/software/stk/index.html) inside openFrameworks. The offical repo for stk is [here](https://github.com/thestk/stk). For features and issues you are better off posting there. I sync ofxStk with the offical Stk repo about once a month. 
 
 
 ##Installation 
 ***
 
-Step 1 - Do what you normally do for an add-on
+Step 1 - Do what you normally do for an add-on (project generator works well)
  
 Step 2 - Copy the 'rawwaves' folder from bin/data of the example project, into bin/data of your project.
 
@@ -34,4 +34,4 @@ Stk already works well with openFrameworks so there is no need to wrap it onto a
 ##Notes
 ***
  
-I've only tested on Mac OSX so far. But getting it to work for other platforms should be just a matter of configuring the macros in the file "Stk.h"
+I've tested on Mac OSX, IOS ,and linux so far. But getting it to work for other platforms should be just a matter of configuring the macros in the file "Stk.h"
