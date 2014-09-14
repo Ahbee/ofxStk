@@ -44,14 +44,9 @@ public:
         // we do this by passing 1 to 'sample->tick'
         
         lastFrame_[0] = sample->tick(1);
+        float input = lastFrame_[0];
         lastFrame_[0] = pithShifter->tick(lastFrame_[0]);
-        
-        // there seems to be a bug in pitShift::tick where samples
-        // sometimes turns out extremly huge,its probably a floating point math issue
-        // so we check for that condition and set the sample to 0.0
-        if (abs(lastFrame_[0]) > 1.0) {
-            lastFrame_[0] = 0.0;
-        }
+        float output = lastFrame_[0];
         
         lastFrame_[0] *= adsr.tick();
         lastFrame_[0] *= amplitude;
