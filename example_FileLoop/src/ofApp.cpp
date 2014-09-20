@@ -100,33 +100,29 @@ void ofApp::audioOut(float *output, int bufferSize, int nChannels){
         // so we will just use the left channel. If you want to apply effects on the second channel you need to
         //create two sets of effects one for the left channel and one for the right channel
         stk::StkFrames leftChannel(bufferSize,1);
-        for (int i = 0; i < bufferSize; i++) {
-            leftChannel[i] = frames(i,0);
-        }
+        // copy the left Channel of 'frames' into `leftChannel`
+        frames.copyChannel(0, leftChannel, 0);
+        
         // applys a filter and writes back into leftChannel
         filter.tick(leftChannel);
         
         if (chorusOn) {
             // chrous takes a mono frame and outputs a stereo frame
-            // we will only use the left channel
+            // we will only use the left channel of the chorus output
             stk::StkFrames chorusOut(bufferSize,2);
             chorus.tick(leftChannel, chorusOut);
-            for (int i = 0; i < bufferSize; i++) {
-                leftChannel[i] = chorusOut(i,0);
-            }
+            chorusOut.copyChannel(0, leftChannel, 0);
         }
         if (reverbOn) {
             // reverb also takes a mono frame and outputs a stereo frame
-            // we will only use the left channel
+            // we will only use the left channel of the reverb output
             stk::StkFrames reverbOut(bufferSize,2);
             reverb.tick(leftChannel,reverbOut,0,0);
-            for (int i = 0; i < bufferSize; i++) {
-                leftChannel[i] = reverbOut(i,0);
-            }
+            reverbOut.copyChannel(0, leftChannel, 0);
         }
         for (int i = 0; i < bufferSize ; i++) {
-            output[2*i] = leftChannel[i];
-            output[2*i+1] = leftChannel[i];
+            output[2*i] = leftChannel(i,0);
+            output[2*i+1] = leftChannel(i,0);
         }
     }
 }
