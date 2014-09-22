@@ -310,7 +310,7 @@ void StkFrames :: resize( size_t nFrames, unsigned int nChannels )
   }
 }
     
-StkFrames& StkFrames::copyChannel(unsigned int sourceChannel,StkFrames& destinationFrames, unsigned int destinationChannel) const
+StkFrames& StkFrames::getChannel(unsigned int sourceChannel,StkFrames& destinationFrames, unsigned int destinationChannel) const
 {
 #if defined(_STK_DEBUG_)
   if (sourceChannel > channels() - 1) {

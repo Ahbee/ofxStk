@@ -101,7 +101,7 @@ void ofApp::audioOut(float *output, int bufferSize, int nChannels){
         //create two sets of effects one for the left channel and one for the right channel
         stk::StkFrames leftChannel(bufferSize,1);
         // copy the left Channel of 'frames' into `leftChannel`
-        frames.copyChannel(0, leftChannel, 0);
+        frames.getChannel(0, leftChannel, 0);
         
         // applys a filter and writes back into leftChannel
         filter.tick(leftChannel);
@@ -111,14 +111,14 @@ void ofApp::audioOut(float *output, int bufferSize, int nChannels){
             // we will only use the left channel of the chorus output
             stk::StkFrames chorusOut(bufferSize,2);
             chorus.tick(leftChannel, chorusOut);
-            chorusOut.copyChannel(0, leftChannel, 0);
+            chorusOut.getChannel(0, leftChannel, 0);
         }
         if (reverbOn) {
             // reverb also takes a mono frame and outputs a stereo frame
             // we will only use the left channel of the reverb output
             stk::StkFrames reverbOut(bufferSize,2);
             reverb.tick(leftChannel,reverbOut,0,0);
-            reverbOut.copyChannel(0, leftChannel, 0);
+            reverbOut.getChannel(0, leftChannel, 0);
         }
         for (int i = 0; i < bufferSize ; i++) {
             output[2*i] = leftChannel(i,0);
