@@ -26,7 +26,7 @@ void ofApp::setup(){
     gui.add(lfoSpeed.setup("LfoSpeed",0,0,127));
     gui.add(lfoDepth.setup("LfoDepth",0,0,127));
     
-    instructions.loadFont("verdana.ttf", 20);
+    instructions.load("verdana.ttf", 20);
     
     stk::Stk::setSampleRate(44100.0);
     ofSoundStreamSetup(2, 0);

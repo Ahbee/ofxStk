@@ -5,7 +5,7 @@ void ofApp::setup(){
     stk::Stk::setRawwavePath(ofToDataPath("rawwaves",true));
     
     voicer = new stk::Voicer();
-    instructions.loadFont("verdana.ttf", 20);
+    instructions.load("verdana.ttf", 20);
 
     for (int i = 0; i < 100 ; i++) {
         stk::Moog *moog = new stk::Moog();

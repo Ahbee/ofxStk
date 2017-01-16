@@ -2,7 +2,7 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    instructions.loadFont("verdana.ttf", 20);
+    instructions.load("verdana.ttf", 20);
     voicer = new stk::Voicer(3.0);
     for (int i = 0; i < 25 ; i++) {
         BasicSampler *sampler = new BasicSampler();

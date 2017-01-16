@@ -30,7 +30,7 @@ void ofApp::setup(){
     beat.openFile(ofToDataPath("beat.wav",true));
     stk::Stk::setSampleRate(44100.0);
     ofSoundStreamSetup(2, 0);
-    instructions.loadFont("verdana.ttf", 20);
+    instructions.load("verdana.ttf", 20);
 }
 
 //--------------------------------------------------------------

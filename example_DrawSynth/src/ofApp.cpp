@@ -17,7 +17,7 @@ void ofApp::setup(){
     ofNoFill();
     ofSetLineWidth(3.0);
     drawRegion.set(200, 200, 700, 500);
-    instructions.loadFont("verdana.ttf", 20);
+    instructions.load("verdana.ttf", 20);
     
     gui.setup("Settings");
     gui.add(attack.setup("attack(ms)",10,10,2000));
@@ -49,9 +49,9 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     ofSetColor(0, 255, 0);
-    ofRect(drawRegion);
+    ofDrawRectangle(drawRegion);
     ofSetColor(0, 0, 0);
-    ofLine(drawRegion.x, drawRegion.y + drawRegion.height/2, drawRegion.x + drawRegion.width, drawRegion.y + drawRegion.height/2);
+    ofDrawLine(drawRegion.x, drawRegion.y + drawRegion.height/2, drawRegion.x + drawRegion.width, drawRegion.y + drawRegion.height/2);
     ofSetColor(255, 0, 0);
     wave.draw();
     
@@ -264,7 +264,7 @@ stk::StkFrames ofApp::createWaveTableFromDrawing(){
             secondVal = points[j+1].x;
             if (xValue >= firstVal && xValue <=secondVal) {
                 lerpPercentage = (xValue-firstVal)/(secondVal - firstVal);
-                ofPoint newPoint = points[j].interpolated(points[j+1], lerpPercentage);
+                ofPoint newPoint = points[j].getInterpolated(points[j+1], lerpPercentage);
                 yValue = transformYValue(newPoint.y);
                 break;
             }
