@@ -29,7 +29,13 @@ void ofApp::setup(){
     instructions.load("verdana.ttf", 20);
     
     stk::Stk::setSampleRate(44100.0);
-    ofSoundStreamSetup(2, 0);
+    
+    ofSoundStreamSettings settings;
+    settings.setOutListener(this);
+    settings.numOutputChannels = 2;
+    settings.numInputChannels = 0;
+    settings.bufferSize = 512;
+    soundStream.setup(settings);
 }
 
 //--------------------------------------------------------------
@@ -166,10 +172,11 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 
 //--------------------------------------------------------------
 
-void ofApp::audioOut(float *output, int bufferSize, int nChannnels){
-    stk::StkFrames synthFrames(bufferSize,1);
+void ofApp::audioOut(ofSoundBuffer & buffer){
+    auto& output = buffer.getBuffer();
+    stk::StkFrames synthFrames(buffer.getNumFrames(),1);
     synth.tick(synthFrames);
-    for (int i = 0; i < bufferSize; i++) {
+    for (int i = 0; i < buffer.getNumFrames(); i++) {
         output[2*i] = synthFrames(i,0);
         output[2*i+1] =  synthFrames(i,0);
     }

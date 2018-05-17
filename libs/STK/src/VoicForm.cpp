@@ -21,7 +21,7 @@
        - Vibrato Gain = 1
        - Loudness (Spectral Tilt) = 128
 
-    by Perry R. Cook and Gary P. Scavone, 1995--2014.
+    by Perry R. Cook and Gary P. Scavone, 1995--2017.
 */
 /***************************************************/
 
@@ -131,7 +131,7 @@ void VoicForm :: controlChange( int number, StkFloat value )
 {
 #if defined(_STK_DEBUG_)
   if ( Stk::inRange( value, 0.0, 128.0 ) == false ) {
-    oStream_ << "Clarinet::controlChange: value (" << value << ") is out of range!";
+    oStream_ << "VoicForm::controlChange: value (" << value << ") is out of range!";
     handleError( StkError::WARNING ); return;
   }
 #endif

@@ -25,7 +25,7 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
-    void audioOut(float *output,int bufferSize,int nChannels);
+    void audioOut(ofSoundBuffer & buffer);
     
     stk::Voicer *voicer;
     
@@ -42,5 +42,6 @@ class ofApp : public ofBaseApp{
     bool lDown;
     
     ofTrueTypeFont instructions;
+    ofSoundStream soundStream;
 		
 };

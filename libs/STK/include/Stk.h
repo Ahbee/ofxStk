@@ -40,7 +40,7 @@ namespace stk {
     STK WWW site: http://ccrma.stanford.edu/software/stk/
 
     The Synthesis ToolKit in C++ (STK)
-    Copyright (c) 1995--2014 Perry R. Cook and Gary P. Scavone
+    Copyright (c) 1995--2017 Perry R. Cook and Gary P. Scavone
 
     Permission is hereby granted, free of charge, to any person
     obtaining a copy of this software and associated documentation files
@@ -171,7 +171,10 @@ public:
     class basis.
   */
   void ignoreSampleRateChange( bool ignore = true ) { ignoreSampleRateChange_ = ignore; };
-
+  
+  //! Static method that frees memory from alertList_.
+  static void  clear_alertList(){std::vector<Stk *>().swap(alertList_);};
+  
   //! Static method that returns the current rawwave path.
   static std::string rawwavePath(void) { return rawwavepath_; }
 
@@ -265,7 +268,7 @@ protected:
     Possible future improvements in this class could include functions
     to convert to and return other data types.
 
-    by Perry R. Cook and Gary P. Scavone, 1995--2014.
+    by Perry R. Cook and Gary P. Scavone, 1995--2017.
 */
 /***************************************************/
 
@@ -380,20 +383,20 @@ public:
     smaller or equal to a previously allocated size.
   */
   void resize( size_t nFrames, unsigned int nChannels, StkFloat value );
-    
+
   //! Retrieves a single channel
   /*!
-    Copies the \c sourceChannel into \c destination's \c destinationChannel. \c destinationChannel must be between 0 and destination.channels() - 1 and
-    sourceChannel must be between 0 and channels() - 1. destination.frames() must be >= frames().
+    Copies the specified \c channel into \c destinationFrames's \c destinationChannel. \c destinationChannel must be between 0 and destination.channels() - 1 and
+    \c channel must be between 0 and channels() - 1. destination.frames() must be >= frames().
     No range checking is performed unless _STK_DEBUG_ is defined.
   */
-  StkFrames& getChannel(unsigned int sourceChannel,StkFrames& destinationFrames, unsigned int destinationChannel) const;
-    
+  StkFrames& getChannel(unsigned int channel,StkFrames& destinationFrames, unsigned int destinationChannel) const;
+
   //! Sets a single channel
   /*!
-     Copies the \c sourceChannel of \c sourceFrames into the \c channel of self.
-     SourceFrames.frames() must be equal to \c frames().
-     No range checking is performed unless _STK_DEBUG_ is defined.
+    Copies the \c sourceChannel of \c sourceFrames into the \c channel of self.
+    SourceFrames.frames() must be equal to frames().
+    No range checking is performed unless _STK_DEBUG_ is defined.
   */
   void setChannel(unsigned int channel,const StkFrames &sourceFrames,unsigned int sourceChannel);
 
@@ -486,7 +489,8 @@ inline StkFloat StkFrames :: operator() ( size_t frame, unsigned int channel ) c
   return data_[ frame * nChannels_ + channel ];
 }
     
-inline StkFrames StkFrames::operator+(const StkFrames &f) const{
+inline StkFrames StkFrames::operator+(const StkFrames &f) const
+{
 #if defined(_STK_DEBUG_)
   if ( f.frames() != nFrames_ || f.channels() != nChannels_ ) {
     std::ostringstream error;
@@ -494,7 +498,7 @@ inline StkFrames StkFrames::operator+(const StkFrames &f) const{
     Stk::handleError( error.str(), StkError::MEMORY_ACCESS );
   }
 #endif
-  StkFrames sum(nFrames_,nChannels_);
+  StkFrames sum((unsigned int)nFrames_,nChannels_);
   StkFloat *sumPtr = &sum[0];
   const StkFloat *fptr = f.data_;
   const StkFloat *dPtr = data_;
@@ -565,7 +569,7 @@ const unsigned int RT_BUFFER_SIZE = 512;
 #if !defined(RAWWAVE_PATH)
   #define RAWWAVE_PATH "../../../data/rawwaves/"
 #endif
-
+    
 #undef PI
 #undef TWO_PI
 const StkFloat PI           = 3.14159265358979;

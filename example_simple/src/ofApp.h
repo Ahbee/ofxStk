@@ -21,7 +21,7 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
-    void audioOut(float *output,int bufferSize,int nChannnels);
+    void audioOut(ofSoundBuffer& buffer);
     bool noNotesDown();
     
     ofxPanel gui;
@@ -33,6 +33,8 @@ class ofApp : public ofBaseApp{
     stk::BeeThree synth;
     
     ofTrueTypeFont instructions;
+    
+    ofSoundStream soundStream;
     
     bool aDown;
     bool sDown;

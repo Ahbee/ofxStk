@@ -21,7 +21,7 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
-    void audioOut(float *output,int bufferSize,int nChannels);
+    void audioOut(ofSoundBuffer& buffer);
     void chorusParametersChanged(float &value);
     void reverbParametersChanged(float &value);
     void frequencyChanged(float &value);
@@ -40,6 +40,8 @@ class ofApp : public ofBaseApp{
     stk::FreeVerb reverb;
     stk::Chorus chorus;
     stk::OneZero filter;
+    
+    ofSoundStream soundStream;
     
     ofTrueTypeFont instructions;
     bool shouldPlayAudio;

@@ -22,7 +22,12 @@ void ofApp::setup(){
     d2.noteNumber = 50;
     e2.noteNumber = 52;
     
-    ofSoundStreamSetup(2, 0);
+    ofSoundStreamSettings settings;
+    settings.setOutListener(this);
+    settings.numOutputChannels = 2;
+    settings.numInputChannels = 0;
+    settings.bufferSize = 512;
+    soundStream.setup(settings);
 }
 
 //--------------------------------------------------------------
@@ -172,8 +177,9 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 
 }
 
-void ofApp::audioOut(float *output, int bufferSize, int nChannels){
-    for (int i = 0; i < bufferSize ; i++) {
+void ofApp::audioOut(ofSoundBuffer & buffer){
+    auto& output = buffer.getBuffer();
+    for (int i = 0; i < buffer.getNumFrames() ; i++) {
         float value = voicer->tick();
         output[2*i] = value;
         output[2*i+1] = value;

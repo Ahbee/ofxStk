@@ -9,7 +9,7 @@
     the ADSR::RELEASE state.  All rate, target and level settings must
     be non-negative.  All time settings must be positive.
 
-    by Perry R. Cook and Gary P. Scavone, 1995--2014.
+    by Perry R. Cook and Gary P. Scavone, 1995--2017.
 */
 /***************************************************/
 
@@ -32,6 +32,7 @@ ADSR :: ADSR( void )
 
 ADSR :: ~ADSR( void )
 {
+  Stk::removeSampleRateAlert( this );
 }
 
 void ADSR :: sampleRateChanged( StkFloat newRate, StkFloat oldRate )

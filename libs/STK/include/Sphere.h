@@ -13,7 +13,7 @@ namespace stk {
     This class implements a spherical ball with
     radius, mass, position, and velocity parameters.
 
-    by Perry R. Cook, 1995--2014.
+    by Perry R. Cook, 1995--2017.
 */
 /***************************************************/
 
@@ -41,7 +41,7 @@ public:
   //! Get the relative position of the given point to the sphere as a 3D vector.
   Vector3D* getRelativePosition( Vector3D *position );
 
-  //! Set the velcoity of the sphere as a 3D vector.
+  //! Set the velocity of the sphere as a 3D vector.
   StkFloat getVelocity( Vector3D* velocity );
 
   //! Returns the distance from the sphere boundary to the given position (< 0 if inside).

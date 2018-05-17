@@ -22,8 +22,7 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     
-    
-    void audioOut(float *output, int bufferSize, int nChannels);
+    void audioOut(ofSoundBuffer & buffer);
     
     // callback evertime user changes adsr envelope
     void adsrChanged(float &val);
@@ -57,6 +56,9 @@ public:
     ofxFloatSlider gain;
     
     ofTrueTypeFont instructions;
+    
+    ofSoundStream soundStream;
+
     
     bool aDown;
     bool sDown;

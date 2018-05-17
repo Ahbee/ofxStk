@@ -12,7 +12,7 @@
     the overloaded one that takes an StkFrames object for
     multi-channel and/or multi-frame data.
 
-    by Perry R. Cook and Gary P. Scavone, 1995--2014.
+    by Perry R. Cook and Gary P. Scavone, 1995--2017.
 */
 /***************************************************/
 
@@ -28,10 +28,11 @@ FileLoop :: FileLoop( unsigned long chunkThreshold, unsigned long chunkSize )
 }
 
 FileLoop :: FileLoop( std::string fileName, bool raw, bool doNormalize,
-                      unsigned long chunkThreshold, unsigned long chunkSize )
+                      unsigned long chunkThreshold, unsigned long chunkSize,
+                      bool doInt2FloatScaling )
   : FileWvIn( chunkThreshold, chunkSize ), phaseOffset_(0.0)
 {
-  this->openFile( fileName, raw, doNormalize );
+  this->openFile( fileName, raw, doNormalize, doInt2FloatScaling );
   Stk::addSampleRateAlert( this );
 }
 
@@ -40,7 +41,7 @@ FileLoop :: ~FileLoop( void )
   Stk::removeSampleRateAlert( this );
 }
 
-void FileLoop :: openFile( std::string fileName, bool raw, bool doNormalize )
+void FileLoop :: openFile( std::string fileName, bool raw, bool doNormalize, bool doInt2FloatScaling )
 {
   // Call close() in case another file is already open.
   this->closeFile();
@@ -53,16 +54,19 @@ void FileLoop :: openFile( std::string fileName, bool raw, bool doNormalize )
     chunking_ = true;
     chunkPointer_ = 0;
     data_.resize( chunkSize_ + 1, file_.channels() );
-    if ( doNormalize ) normalizing_ = true;
-    else normalizing_ = false;
   }
   else {
     chunking_ = false;
     data_.resize( file_.fileSize() + 1, file_.channels() );
   }
 
+  if ( doInt2FloatScaling )
+    int2floatscaling_ = true;
+  else
+    int2floatscaling_ = false;
+
   // Load all or part of the data.
-  file_.read( data_, 0, doNormalize );
+  file_.read( data_, 0, int2floatscaling_ );
 
   if ( chunking_ ) { // If chunking, save the first sample frame for later.
     firstFrame_.resize( 1, data_.channels() );
@@ -76,6 +80,10 @@ void FileLoop :: openFile( std::string fileName, bool raw, bool doNormalize )
 
   // Resize our lastOutputs container.
   lastFrame_.resize( 1, file_.channels() );
+
+  // Close the file unless chunking
+  fileSize_ = file_.fileSize();
+  if ( !chunking_ ) file_.close();
 
   // Set default rate based on file sampling rate.
   this->setRate( data_.dataRate() / Stk::sampleRate() );
@@ -98,29 +106,27 @@ void FileLoop :: addTime( StkFloat time )
   // Add an absolute time in samples.
   time_ += time;
 
-  StkFloat fileSize = file_.fileSize();
   while ( time_ < 0.0 )
-    time_ += fileSize;
-  while ( time_ >= fileSize )
-    time_ -= fileSize;
+    time_ += fileSize_;
+  while ( time_ >= fileSize_ )
+    time_ -= fileSize_;
 }
 
 void FileLoop :: addPhase( StkFloat angle )
 {
   // Add a time in cycles (one cycle = fileSize).
-  StkFloat fileSize = file_.fileSize();
-  time_ += fileSize * angle;
+  time_ += fileSize_ * angle;
 
   while ( time_ < 0.0 )
-    time_ += fileSize;
-  while ( time_ >= fileSize )
-    time_ -= fileSize;
+    time_ += fileSize_;
+  while ( time_ >= fileSize_ )
+    time_ -= fileSize_;
 }
 
 void FileLoop :: addPhaseOffset( StkFloat angle )
 {
   // Add a phase offset in cycles, where 1.0 = fileSize.
-  phaseOffset_ = file_.fileSize() * angle;
+  phaseOffset_ = fileSize_ * angle;
 }
 
 StkFloat FileLoop :: tick( unsigned int channel )
@@ -132,22 +138,22 @@ StkFloat FileLoop :: tick( unsigned int channel )
   }
 #endif
 
+  if ( finished_ ) return 0.0;
+
   // Check limits of time address ... if necessary, recalculate modulo
   // fileSize.
-  StkFloat fileSize = file_.fileSize();
-
   while ( time_ < 0.0 )
-    time_ += fileSize;
-  while ( time_ >= fileSize )
-    time_ -= fileSize;
+    time_ += fileSize_;
+  while ( time_ >= fileSize_ )
+    time_ -= fileSize_;
 
   StkFloat tyme = time_;
   if ( phaseOffset_ ) {
     tyme += phaseOffset_;
     while ( tyme < 0.0 )
-      tyme += fileSize;
-    while ( tyme >= fileSize )
-      tyme -= fileSize;
+      tyme += fileSize_;
+    while ( tyme >= fileSize_ )
+      tyme -= fileSize_;
   }
 
   if ( chunking_ ) {
@@ -162,8 +168,8 @@ StkFloat FileLoop :: tick( unsigned int channel )
       }
       while ( time_ > (StkFloat) ( chunkPointer_ + chunkSize_ - 1 ) ) { // positive rate
         chunkPointer_ += chunkSize_ - 1; // overlap chunks by one frame
-        if ( chunkPointer_ + chunkSize_ > file_.fileSize() ) { // at end of file
-          chunkPointer_ = file_.fileSize() - chunkSize_ + 1; // leave extra frame at end of buffer
+        if ( chunkPointer_ + chunkSize_ > fileSize_ ) { // at end of file
+          chunkPointer_ = fileSize_ - chunkSize_ + 1; // leave extra frame at end of buffer
           // Now fill extra frame with first frame data.
           for ( unsigned int j=0; j<firstFrame_.channels(); j++ )
             data_( data_.frames() - 1, j ) = firstFrame_[j];
@@ -171,7 +177,7 @@ StkFloat FileLoop :: tick( unsigned int channel )
       }
 
       // Load more data.
-      file_.read( data_, chunkPointer_, normalizing_ );
+      file_.read( data_, chunkPointer_, int2floatscaling_ );
     }
 
     // Adjust index for the current buffer.
@@ -195,7 +201,7 @@ StkFloat FileLoop :: tick( unsigned int channel )
 
 StkFrames& FileLoop :: tick( StkFrames& frames, unsigned int channel)
 {
-  if ( !file_.isOpen() ) {
+  if ( finished_ ) {
 #if defined(_STK_DEBUG_)
     oStream_ << "FileLoop::tick(): no file data is loaded!";
     handleError( StkError::DEBUG_PRINT );

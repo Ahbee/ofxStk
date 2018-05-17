@@ -27,7 +27,7 @@
     See the FileRead class for a description of the supported audio
     file formats.
 
-    by Perry R. Cook and Gary P. Scavone, 1995--2014.
+    by Perry R. Cook and Gary P. Scavone, 1995--2017.
 */
 /***************************************************/
 
@@ -44,11 +44,12 @@ FileWvIn :: FileWvIn( unsigned long chunkThreshold, unsigned long chunkSize )
 }
 
 FileWvIn :: FileWvIn( std::string fileName, bool raw, bool doNormalize,
-                      unsigned long chunkThreshold, unsigned long chunkSize )
+                      unsigned long chunkThreshold, unsigned long chunkSize,
+                      bool doInt2FloatScaling )
   : finished_(true), interpolate_(false), time_(0.0), rate_(0.0),
     chunkThreshold_(chunkThreshold), chunkSize_(chunkSize)
 {
-  openFile( fileName, raw, doNormalize );
+  openFile( fileName, raw, doNormalize, doInt2FloatScaling );
   Stk::addSampleRateAlert( this );
 }
 
@@ -71,7 +72,7 @@ void FileWvIn :: closeFile( void )
   lastFrame_.resize( 0, 0 );
 }
 
-void FileWvIn :: openFile( std::string fileName, bool raw, bool doNormalize )
+void FileWvIn :: openFile( std::string fileName, bool raw, bool doNormalize, bool doInt2FloatScaling )
 {
   // Call close() in case another file is already open.
   this->closeFile();
@@ -84,19 +85,26 @@ void FileWvIn :: openFile( std::string fileName, bool raw, bool doNormalize )
     chunking_ = true;
     chunkPointer_ = 0;
     data_.resize( chunkSize_, file_.channels() );
-    if ( doNormalize ) normalizing_ = true;
-    else normalizing_ = false;
   }
   else {
     chunking_ = false;
     data_.resize( (size_t) file_.fileSize(), file_.channels() );
   }
 
+  if ( doInt2FloatScaling )
+    int2floatscaling_ = true;
+  else
+    int2floatscaling_ = false;
+
   // Load all or part of the data.
-  file_.read( data_, 0, doNormalize );
+  file_.read( data_, 0, int2floatscaling_ );
 
   // Resize our lastFrame container.
   lastFrame_.resize( 1, file_.channels() );
+
+  // Close the file unless chunking
+  fileSize_ = file_.fileSize();
+  if ( !chunking_ ) file_.close();
 
   // Set default rate based on file sampling rate.
   this->setRate( data_.dataRate() / Stk::sampleRate() );
@@ -146,7 +154,7 @@ void FileWvIn :: setRate( StkFloat rate )
 
   // If negative rate and at beginning of sound, move pointer to end
   // of sound.
-  if ( (rate_ < 0) && (time_ == 0.0) ) time_ = file_.fileSize() - 1.0;
+  if ( (rate_ < 0) && (time_ == 0.0) ) time_ = fileSize_ - 1.0;
 
   if ( fmod( rate_, 1.0 ) != 0.0 ) interpolate_ = true;
   else interpolate_ = false;
@@ -158,8 +166,8 @@ void FileWvIn :: addTime( StkFloat time )
   time_ += time;
 
   if ( time_ < 0.0 ) time_ = 0.0;
-  if ( time_ > file_.fileSize() - 1.0 ) {
-    time_ = file_.fileSize() - 1.0;
+  if ( time_ > fileSize_ - 1.0 ) {
+    time_ = fileSize_ - 1.0;
     for ( unsigned int i=0; i<lastFrame_.size(); i++ ) lastFrame_[i] = 0.0;
     finished_ = true;
   }
@@ -176,7 +184,7 @@ StkFloat FileWvIn :: tick( unsigned int channel )
 
   if ( finished_ ) return 0.0;
 
-  if ( time_ < 0.0 || time_ > (StkFloat) ( file_.fileSize() - 1.0 ) ) {
+  if ( time_ < 0.0 || time_ > (StkFloat) ( fileSize_ - 1.0 ) ) {
     for ( unsigned int i=0; i<lastFrame_.size(); i++ ) lastFrame_[i] = 0.0;
     finished_ = true;
     return 0.0;
@@ -195,12 +203,12 @@ StkFloat FileWvIn :: tick( unsigned int channel )
       }
       while ( time_ > (StkFloat) ( chunkPointer_ + chunkSize_ - 1 ) ) { // positive rate
         chunkPointer_ += chunkSize_ - 1; // overlap chunks by one frame
-        if ( chunkPointer_ + chunkSize_ > file_.fileSize() ) // at end of file
-          chunkPointer_ = file_.fileSize() - chunkSize_;
+        if ( chunkPointer_ + chunkSize_ > fileSize_ ) // at end of file
+          chunkPointer_ = fileSize_ - chunkSize_;
       }
 
       // Load more data.
-      file_.read( data_, chunkPointer_, normalizing_ );
+      file_.read( data_, chunkPointer_, int2floatscaling_ );
     }
 
     // Adjust index for the current buffer.
@@ -224,9 +232,9 @@ StkFloat FileWvIn :: tick( unsigned int channel )
 
 StkFrames& FileWvIn :: tick( StkFrames& frames, unsigned int channel)
 {
-  if ( !file_.isOpen() ) {
+  if ( finished_ ) {
 #if defined(_STK_DEBUG_)
-    oStream_ << "FileWvIn::tick(): no file data is loaded!";
+    oStream_ << "FileWvIn::tick(): end of file or no open file!";
     handleError( StkError::DEBUG_PRINT );
 #endif
     return frames;
@@ -254,7 +262,6 @@ StkFrames& FileWvIn :: tick( StkFrames& frames, unsigned int channel)
     }
   }
   return frames;
-
 }
 
 } // stk namespace

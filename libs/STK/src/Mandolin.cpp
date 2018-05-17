@@ -22,7 +22,7 @@
        - String Detuning = 1
        - Microphone Position = 128
 
-    by Perry R. Cook and Gary P. Scavone, 1995--2014.
+    by Perry R. Cook and Gary P. Scavone, 1995--2017.
 */
 /***************************************************/
 
@@ -75,7 +75,7 @@ void Mandolin :: clear( void )
 void Mandolin :: setPluckPosition( StkFloat position )
 {
   if ( position < 0.0 || position > 1.0 ) {
-    std::cerr << "Mandolin::setPluckPosition: position parameter out of range!";
+    oStream_ << "Mandolin::setPluckPosition: position parameter out of range!";
     handleError( StkError::WARNING ); return;
   }
 

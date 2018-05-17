@@ -28,7 +28,7 @@ class ofApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
     
     
-    void audioOut(float *output,int bufferSize,int nChannels);
+    void audioOut(ofSoundBuffer& buffer);
     
     stk::Voicer *voicer;
     
@@ -43,6 +43,8 @@ class ofApp : public ofBaseApp{
     bool jDown;
     bool kDown;
     bool lDown;
+    
+    ofSoundStream soundStream;
     
     ofTrueTypeFont instructions;
 		

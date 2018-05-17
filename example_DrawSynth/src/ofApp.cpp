@@ -38,7 +38,12 @@ void ofApp::setup(){
     release.addListener(this, &ofApp::adsrChanged);
     gain.addListener(this, &ofApp::adsrChanged);
     
-    ofSoundStreamSetup(2, 0);
+    ofSoundStreamSettings settings;
+    settings.setOutListener(this);
+    settings.numOutputChannels = 2;
+    settings.numInputChannels = 0;
+    settings.bufferSize = 512;
+    soundStream.setup(settings);
 }
 
 //--------------------------------------------------------------
@@ -239,8 +244,8 @@ void ofApp::adsrChanged(float &val){
 //--------------------------------------------------------------
 
 void ofApp::cutWaveToPoint(ofPoint cutPoint){
-    vector<ofPoint> &points = wave.getVertices();
-    ofPoint lastPoint = points.back();
+    auto &points = wave.getVertices();
+    auto lastPoint = points.back();
     while (lastPoint.x > cutPoint.x) {
         points.pop_back();
         lastPoint = points.back();
@@ -254,7 +259,7 @@ stk::StkFrames ofApp::createWaveTableFromDrawing(){
     stk::StkFrames frames(numberOfFrames,1);
     for (int i = 0; i < numberOfFrames; i++) {
         float xValue = ofMap(i, 0, numberOfFrames-1, drawRegion.x, drawRegion.x+drawRegion.width);
-        const vector<ofPoint> &points = wave.getVertices();
+        auto &points = wave.getVertices();
         float lerpPercentage;
         float firstVal;
         float secondVal;
@@ -264,7 +269,7 @@ stk::StkFrames ofApp::createWaveTableFromDrawing(){
             secondVal = points[j+1].x;
             if (xValue >= firstVal && xValue <=secondVal) {
                 lerpPercentage = (xValue-firstVal)/(secondVal - firstVal);
-                ofPoint newPoint = points[j].getInterpolated(points[j+1], lerpPercentage);
+                auto newPoint = glm::mix(points[j],points[j+1],lerpPercentage);
                 yValue = transformYValue(newPoint.y);
                 break;
             }
@@ -280,14 +285,14 @@ float ofApp::transformYValue(float yValue) const{
     return -ofMap(yValue, drawRegion.y, drawRegion.y + drawRegion.height, -1, 1);
 }
 
-//--------------------------------------------------------------
 
-void ofApp::audioOut(float *output, int bufferSize, int nChannels){
-    for (int i = 0; i < bufferSize; i++) {
+
+void ofApp::audioOut(ofSoundBuffer& buffer)
+{
+    auto& output = buffer.getBuffer();
+    for (int i = 0; i < buffer.getNumFrames(); i++) {
         float value = drawSynth.tick();
         output[2*i] = value;
         output[2*i+1] = value;
     }
 }
-
-

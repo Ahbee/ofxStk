@@ -14,7 +14,7 @@
     minimum delay possible in this implementation is limited to a
     value of 0.5.
 
-    by Perry R. Cook and Gary P. Scavone, 1995--2014.
+    by Perry R. Cook and Gary P. Scavone, 1995--2017.
 */
 /***************************************************/
 
@@ -59,7 +59,7 @@ void DelayA :: clear()
 void DelayA :: setMaximumDelay( unsigned long delay )
 {
   if ( delay < inputs_.size() ) return;
-  inputs_.resize(delay + 1,1,0.0);
+  inputs_.resize(delay + 1, 1, 0.0);
 }
 
 void DelayA :: setDelay( StkFloat delay )

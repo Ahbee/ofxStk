@@ -29,8 +29,16 @@ void ofApp::setup(){
     
     beat.openFile(ofToDataPath("beat.wav",true));
     stk::Stk::setSampleRate(44100.0);
-    ofSoundStreamSetup(2, 0);
     instructions.load("verdana.ttf", 20);
+    
+    
+    ofSoundStreamSettings settings;
+    settings.setOutListener(this);
+    settings.numOutputChannels = 2;
+    settings.numInputChannels = 0;
+    settings.bufferSize = 512;
+    soundStream.setup(settings);
+    
 }
 
 //--------------------------------------------------------------
@@ -91,7 +99,9 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 
 }
 
-void ofApp::audioOut(float *output, int bufferSize, int nChannels){
+void ofApp::audioOut(ofSoundBuffer& buffer){
+    auto& output = buffer.getBuffer();
+    auto bufferSize = buffer.getNumFrames();
     if (shouldPlayAudio) {
         stk::StkFrames frames(bufferSize,2);
         beat.tick(frames);
