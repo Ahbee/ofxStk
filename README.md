@@ -7,7 +7,7 @@ ofxStk lets you use [The Synthesis Tool Kit](https://ccrma.stanford.edu/software
 
 Step 1 - Do what you normally do for an add-on (project generator works well)
  
-Step 2 - Copy the 'rawwaves' folder from bin/data of the example project, into bin/data of your project.
+Step 2 - Copy the 'rawwaves' folder from ofxStk/bin/data   into bin/data of your project.
 
 ##### Note on Linux
 if your are on linux and your system is little endian you have to complie with the following option
